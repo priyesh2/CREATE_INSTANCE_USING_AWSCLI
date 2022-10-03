@@ -1,6 +1,5 @@
 # CREATE_INSTANCE_USING_AWSCLI
-
-----------------------------------------------AWS INSTANCE PROVISIONING USING AWS CLI --------------------------------------
+# AWS INSTANCE PROVISIONING USING AWS CLI
 
 Creating a VPC
 
