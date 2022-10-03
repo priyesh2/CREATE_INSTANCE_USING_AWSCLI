@@ -152,8 +152,10 @@
 }
 
 
+* aws ec2 create-key-pair --key-name AWS-Keypair --query "KeyMaterial" --output text > "C:\AWS\AWS_Keypair.pem"
 
-* aws ec2 create-tags --resources sg-0d6d0cc4e66b1616c --tags Key=Name,Value=CLI_SECURITY_GROUP Add Ingress Port 22 and 80
+
+
 
 {
     "KeyFingerprint": "5f:83:c8:dc:8e:10:47:9a:6e:9e:08:bb:39:4f:7e:d3:e3:dc:92:23",
