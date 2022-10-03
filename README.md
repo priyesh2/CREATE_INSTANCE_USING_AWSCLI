@@ -3,28 +3,6 @@
 ----------------------------------------------AWS INSTANCE PROVISIONING USING AWS CLI , COMMANDS WITH RESULTS--------------------------------------
  * aws ec2 create-vpc --cidr-block 172.16.0.0/16
 
-{
-    "Vpc": {
-        "CidrBlock": "172.16.0.0/16",
-        "DhcpOptionsId": "dopt-08a3a2798948c9b1d",
-        "State": "pending",
-        "VpcId": "vpc-07032fee4ee7042ec",
-        "OwnerId": "332236796910",
-        "InstanceTenancy": "default",
-        "Ipv6CidrBlockAssociationSet": [],
-        "CidrBlockAssociationSet": [
-            {
-                "AssociationId": "vpc-cidr-assoc-0b9186d8b54ed3c26",
-                "CidrBlock": "172.16.0.0/16",
-                "CidrBlockState": {
-                    "State": "associated"
-                }
-            }
-        ],
-        "IsDefault": false
-    }
-}
-
 
 
 * aws ec2 create-tags --resources vpc-07032fee4ee7042ec --tags Key=Name,Value=CLI-VPC
@@ -34,44 +12,14 @@
 * aws ec2 create-subnet --vpc-id vpc-07032fee4ee7042ec --cidr-block 172.16.64.0/18  --availability-zone ap-south-1a
 
 
-{
-    "Subnet": {
-        "AvailabilityZone": "ap-south-1a",
-        "AvailabilityZoneId": "aps1-az1",
-        "AvailableIpAddressCount": 16379,
-        "CidrBlock": "172.16.0.0/18",
-        "DefaultForAz": false,
-        "MapPublicIpOnLaunch": false,
-        "State": "available",
-        "SubnetId": "subnet-053bb6140310c7cdf",
-        "VpcId": "vpc-07032fee4ee7042ec",
-        "OwnerId": "332236796910",
-        "AssignIpv6AddressOnCreation": false,
-        "Ipv6CidrBlockAssociationSet": [],
-        "SubnetArn": "arn:aws:ec2:ap-south-1:332236796910:subnet/subnet-053bb6140310c7cdf",
-        "EnableDns64": false,
-        "Ipv6Native": false,
-        "PrivateDnsNameOptionsOnLaunch": {
-            "HostnameType": "ip-name",
-            "EnableResourceNameDnsARecord": false,
-            "EnableResourceNameDnsAAAARecord": false
-        }
-    }
-}
-
 
 
 * aws ec2 create-tags --resources subnet-053bb6140310c7cdf --tags Key=Name,Value=CLI-Public-Subnet
 
+
+
+
 * aws ec2 create-internet-gateway
-{
-    "InternetGateway": {
-        "Attachments": [],
-        "InternetGatewayId": "igw-029676ead3e82c3a5",
-        "OwnerId": "332236796910",
-        "Tags": []
-    }
-}
 
 
 
@@ -85,150 +33,29 @@
 * aws ec2 create-route-table --vpc-id vpc-07032fee4ee7042ec
 
 
-{
-    "RouteTable": {
-        "Associations": [],
-        "PropagatingVgws": [],
-        "RouteTableId": "rtb-0f3262d668e627530",
-        "Routes": [
-            {
-                "DestinationCidrBlock": "172.16.0.0/16",
-                "GatewayId": "local",
-                "Origin": "CreateRouteTable",
-                "State": "active"
-            }
-        ],
-        "Tags": [],
-        "VpcId": "vpc-07032fee4ee7042ec",
-        "OwnerId": "332236796910"
-    }
-}
-
-
-
-
 * aws ec2 create-tags --resources rtb-0f3262d668e627530 --tags Key=Name,Value=CLI-PUBLIC_RT
 
 * aws ec2 create-route --route-table-id rtb-0f3262d668e627530 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-029676ead3e82c3a5
 
- 0.0.0.0/0 --gateway-id igw-029676ead3e82c3a5
-{
-    "Return": true
-}
-
 
 * aws ec2 associate-route-table --route-table-id rtb-0f3262d668e627530 --subnet-id subnet-053bb6140310c7cdf
-
-{
-    "AssociationId": "rtbassoc-031e1d13fc0e28f55",
-    "AssociationState": {
-        "State": "associated"
-    }
-}
 
 
 * aws ec2  create-security-group --group-name  CLI-WEB-SecurityGroup  --description	"Mysecuritygroup" --vpc-id vpc-07032fee4ee7042ec
 
 
-{
-    "GroupId": "sg-0d6d0cc4e66b1616c"
-}
-
-
 * aws ec2 authorize-security-group-ingress --group-id sg-0d6d0cc4e66b1616c --protocol tcp --port 22 --cidr 0.0.0.0/0
 
-{
-    "Return": true,
-    "SecurityGroupRules": [
-        {
-            "SecurityGroupRuleId": "sgr-085350247e3061cb5",
-            "GroupId": "sg-0d6d0cc4e66b1616c",
-            "GroupOwnerId": "332236796910",
-            "IsEgress": false,
-            "IpProtocol": "tcp",
-            "FromPort": 22,
-            "ToPort": 22,
-            "CidrIpv4": "0.0.0.0/0"
-        }
-    ]
-}
 
 
 * aws ec2 create-key-pair --key-name AWS-Keypair --query "KeyMaterial" --output text > "C:\AWS\AWS_Keypair.pem"
 
 
-
-
-{
-    "KeyFingerprint": "5f:83:c8:dc:8e:10:47:9a:6e:9e:08:bb:39:4f:7e:d3:e3:dc:92:23",
-    "KeyMaterial": "YOUR PRIVATE KEY"
-}
-
-
-* aws ec2 run-instances --image-id ami-01216e7612243e0ef --count 1 --instance-type t2.micro --key-name MyKeyPairCLI --security-group-ids sg-0d6d0cc4e66b1616c --subnet-id subnet-053bb6140310c7cdf -- associate-public-ip-address
-
-{
-    "Groups": [],
-    "Instances": [
-        {
-            "AmiLaunchIndex": 0,
-            "ImageId": "ami-01216e7612243e0ef",
-            "InstanceId": "i-0d150a5a31a088747",
-            "InstanceType": "t2.micro",
-            "KeyName": "MyKeyPairCLI",
-            "LaunchTime": "2022-10-02T08:09:04+00:00",
-            "Monitoring": {
-                "State": "disabled"
-            },
-            "Placement": {
-                "AvailabilityZone": "ap-south-1a",
-                "GroupName": "",
-                "Tenancy": "default"
-            },
-            "PrivateDnsName": "ip-172-16-4-7.ap-south-1.compute.internal",
-            "PrivateIpAddress": "172.16.4.7",
-            "ProductCodes": [],
-            "PublicDnsName": "",
-            "State": {
-                "Code": 0,
-                "Name": "pending"
-            },
-            "StateTransitionReason": "",
-            "SubnetId": "subnet-053bb6140310c7cdf",
-            "VpcId": "vpc-07032fee4ee7042ec",
-
+* aws ec2 run-instances --image-id ami-01216e7612243e0ef --count 1 --instance-type t2.micro --key-name MyKeyPairCLI --security-group-ids sg-0d6d0cc4e66b1616c --subnet-id subnet-053bb6140310c7cdf --associate-public-ip-address
 
 
 * aws ec2 create-tags --resources i-0d150a5a31a088747 --tags Key=Name,Value=CLI_EC2
 
 
 * aws ec2 describe-instances
-{
-    "Reservations": [
-        {
-            "Groups": [],
-            "Instances": [
-                {
-                    "AmiLaunchIndex": 0,
-                    "ImageId": "ami-01216e7612243e0ef",
-                    "InstanceId": "i-0d150a5a31a088747",
-                    "InstanceType": "t2.micro",
-                    "KeyName": "MyKeyPairCLI",
-                    "LaunchTime": "2022-10-02T08:09:04+00:00",
-                    "Monitoring": {
-                        "State": "disabled"
-                    },
-                    "Placement": {
-                        "AvailabilityZone": "ap-south-1a",
-                        "GroupName": "",
-                        "Tenancy": "default"
-                    },
-                    "PrivateDnsName": "ip-172-16-4-7.ap-south-1.compute.internal",
-                    "PrivateIpAddress": "172.16.4.7",
-                    "ProductCodes": [],
-                    "PublicDnsName": "",
-                    "PublicIpAddress": "13.233.88.203",
-                    "State": {
-                        "Code": 16,
-                        "Name": "running"
-                    }
+
