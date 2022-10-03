@@ -1,6 +1,7 @@
 # CREATE_INSTANCE_USING_AWSCLI
 
-----------------------------------------------AWS INSTANCE PROVISIONING USING AWS CLI , COMMANDS WITH RESULTS--------------------------------------
+----------------------------------------------AWS INSTANCE PROVISIONING USING AWS CLI --------------------------------------
+
  * aws ec2 create-vpc --cidr-block 172.16.0.0/16
 
 
